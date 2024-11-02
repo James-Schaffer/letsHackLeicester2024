@@ -12,8 +12,8 @@ from kivy.uix.image import Image
 import firebase_admin
 from firebase_admin import credentials
 
-cred = credentials.Certificate("firebase_API_key.json")
-firebase_admin.initialize_app(cred)
+# cred = credentials.Certificate("firebase_API_key.json")
+#firebase_admin.initialize_app(cred)
 
 class ChoreManagerApp(App):
     def build(self):
