@@ -11,11 +11,10 @@ from kivy.uix.image import Image
 
 
 import firebase_admin
-from firebase_admin import credentials
+from firebase_admin import credentials, firestore
 
 cred = credentials.Certificate("firebase_API_key.json")
 firebase_admin.initialize_app(cred)
-
 
 class ChoreManagerApp(App):
     def build(self):
@@ -24,6 +23,12 @@ class ChoreManagerApp(App):
 class ChoreManagerInterface(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+
+        store = firestore.client()
+        usersRef = store.collection("users")
+
+        for user in usersRef.get():
+            self.add_widget(Label(text=str(user.to_dict())))
 
 #=======================================================================================================
 
