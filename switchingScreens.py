@@ -10,7 +10,7 @@ from kivy.uix.label import Label
 from kivy.uix.image import Image
 
 import firebase_admin
-from firebase_admin import credentials, firestore
+from firebase_admin import credentials
 
 cred = credentials.Certificate("firebase_API_key.json")
 firebase_admin.initialize_app(cred)
@@ -58,12 +58,6 @@ class ChoreManagerInterface(BoxLayout):
         btn2 = Button(text='In', size_hint=(.3, 1))
         self.add_widget(btn1)
         self.add_widget(btn2)
-
-        store = firestore.client()
-        usersRef = store.collection("users")
-
-        for user in usersRef.get():
-            self.add_widget(Label(text=str(user.to_dict())))
 
 #=======================================================================================================
 
