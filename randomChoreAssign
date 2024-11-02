@@ -1,0 +1,37 @@
+import random
+
+class TaskManager:
+    def __init__(self, people):
+        self.people = people
+        self.task_counts = {person: 0 for person in people}  # Track task counts for each person
+        self.assignments = {person: [] for person in people}  # Track assigned tasks for each person
+
+    def assign_tasks(self, tasks):
+        for task in tasks:
+            # Determine the person with the fewest tasks assigned
+            least_assigned_person = min(self.people, key=lambda person: self.task_counts[person])
+            self.assignments[least_assigned_person].append(task)  # Assign task to this person
+            self.task_counts[least_assigned_person] += 1  # Update task count for this person
+
+            # Shuffle the people to maintain randomness in selection order
+            random.shuffle(self.people)
+
+    def get_assignments(self):
+        # Return the task assignments as a list of tuples
+        return {person: self.assignments[person] for person in self.people}
+
+# Example usage
+people = ["a", "b", "c", "d"]
+task_manager = TaskManager(people)
+
+# Simulate the assignment of tasks over several weeks
+for week in range(1, 5):
+    print(f"Week {week}:")
+    tasks = [f"task{task_num}" for task_num in range(1, 6)]  # Create a list of tasks for the week
+    task_manager.assign_tasks(tasks)  # Assign tasks for the week
+    assignments = task_manager.get_assignments()
+    for person, assigned_tasks in assignments.items():
+        print(f"{person}: {assigned_tasks}")
+    print()  # Blank line for readability
+
+
