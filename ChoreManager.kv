@@ -2,19 +2,129 @@
     orientation: "vertical"
 
 <LoginSignupMenu>:
-    orientation: "vertical"
+    orientation: "vertical" 
+    
+    LoginInterface:
 
     BoxLayout:
         orientation: "horizontal"
         size_hint: 1, None
         height: "40dp"
 
-        canvas:
-            Color:
-                rgb: (1, 1, 1)
-            Rectangle:
-                pos: {0, 0}
-                size: self.size
+        Button:
+            text: "Login"
+            color: 1, 1, 1, 1
+            on_press: root.LoadMenu(0)
 
-        Label:
-            text: "test"
+        Button:
+            text: "Sign Up"
+            color: 1, 1, 1, 1
+            on_press: root.LoadMenu(1)
+
+<LoginInterface@BoxLayout>:
+    orientation: "vertical"
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "center"
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: None, None
+            height: "120dp"
+            width: "200dp"
+
+            TextInput:
+                id: usernameInput
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                hint_text: "username"
+                multiline: False
+
+            TextInput:
+                id: passwordInput
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                hint_text: "password"
+                multiline: False
+                password: True
+
+            Button:
+                text: "Login"
+                color: 1, 1, 1, 1
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                on_press: root.SubmitLoginDetails()
+
+<SignupInterface@BoxLayout>:
+    orientation: "vertical"
+
+    AnchorLayout:
+        anchor_x: "center"
+        anchor_y: "center"
+        BoxLayout:
+            orientation: "vertical"
+            size_hint: None, None
+            height: "120dp"
+            width: "200dp"
+    
+            TextInput:
+                id: usernameInput
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                hint_text: "username"
+                multiline: False
+
+            TextInput:
+                id: passwordInput
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                hint_text: "password"
+                multiline: False
+                password: True
+
+            TextInput:
+                id: passwordInputConfirm
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                hint_text: "confirm password"
+                multiline: False
+                password: True
+
+            Button:
+                text: "Sign Up"
+                color: 1, 1, 1, 1
+
+                size_hint: None, None
+                size: "200dp", "40dp"
+
+                pos_hint: {"center_x" : 0.5}
+
+                on_press: root.SubmitSignUpDetails()
+
+            Label:
+                size_hint: 1, None
+                height: "40dp"
+                text: root.signinFeedbackText
