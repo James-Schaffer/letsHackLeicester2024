@@ -79,32 +79,35 @@ class ChoreManagerInterface(BoxLayout):
         houseName_layout.add_widget(HouseNameInput)
         # Area to add chores to the house
         addChore_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        AddChoreInput = TextInput()
+        self.AddChoreInput = TextInput() #Self so that this can be accessed in other functions
         AddChoreButton = Button(text="Add Chore")
-        addChore_layout.add_widget(AddChoreInput)
+        AddChoreButton.bind(on_press=self.addChore)
+        addChore_layout.add_widget(self.AddChoreInput)
         addChore_layout.add_widget(AddChoreButton)
         # Area Below to display the chores
         # One chore is added each time the user clicks add chore
-        chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
-        Chore1 = Label()
-        Chore1.text = "Chore 1"
-        Chore2 = Label()
-        Chore2.text = "Chore 2"
-        Chore3 = Label()
-        Chore3.text = "Chore 3"
-        Chore4 = Label()
-        Chore4.text = "Chore 4"
-        chores_layout.add_widget(Chore1)
-        chores_layout.add_widget(Chore2)
-        chores_layout.add_widget(Chore3)
-        chores_layout.add_widget(Chore4)
+        self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
         # Make House Button
         MakeHouseButton = Button(text="Make House")
         # Adding all these items to the page
         self.add_widget(houseName_layout)
         self.add_widget(addChore_layout)
-        self.add_widget(chores_layout)
+        self.add_widget(self.chores_layout)
         self.add_widget(MakeHouseButton)
+    
+    #Code used to add chore to chore layout
+    def addChore(self,instance):
+        # Get the text from the input field
+        task_text = self.AddChoreInput.text.strip()
+        
+        # Only add if there's input text
+        if task_text:
+            # Add the task as a new label in the tasks layout
+            task_label = Label(text=task_text, size_hint_y=None, height=40)
+            self.chores_layout.add_widget(task_label)
+            
+            # Clear the input field after adding the task
+            self.AddChoreInput.text = ""
 
     # Displaying the See House Page
     def DisplaySeeHouse(self):
