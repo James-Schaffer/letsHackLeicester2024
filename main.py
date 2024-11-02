@@ -9,9 +9,13 @@ from kivy.uix.button import Button, ButtonBehavior
 from kivy.uix.label import Label
 from kivy.uix.image import Image
 
-import firebase_admin
 
-APIkey = open("apiKey")
+import firebase_admin
+from firebase_admin import credentials
+
+cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
+
 
 class ChoreManagerApp(App):
     def build(self):
