@@ -1,2 +1,20 @@
 <ChoreManagerInterface>:
     orientation: "vertical"
+
+<LoginSignupMenu>:
+    orientation: "vertical"
+
+    BoxLayout:
+        orientation: "horizontal"
+        size_hint: 1, None
+        height: "40dp"
+
+        canvas:
+            Color:
+                rgb: (1, 1, 1)
+            Rectangle:
+                pos: {0, 0}
+                size: self.size
+
+        Label:
+            text: "test"

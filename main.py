@@ -24,11 +24,19 @@ class ChoreManagerInterface(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+        '''
         store = firestore.client()
         usersRef = store.collection("users")
 
         for user in usersRef.get():
-            self.add_widget(Label(text=str(user.to_dict())))
+            self.add_widget(Label(text=str(user.to_dict()["username"])))
+        '''
+
+        self.add_widget(LoginSignupMenu())
+
+class LoginSignupMenu(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 #=======================================================================================================
 
