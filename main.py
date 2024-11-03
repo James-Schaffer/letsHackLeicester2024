@@ -48,17 +48,26 @@ class ChoreManagerInterface(BoxLayout):
 
     # Method to change to the Sign Up state
     def ChangeToSignUp(self, button):
-        self.currentState = "SignUp"
-        self.currentStateSet = False
         self.clear_widgets()
         self.displaySignUp()
 
     # Method to change to the Sign In state
     def ChangeToSignIn(self, button):
-        self.currentState = "SignIn"
-        self.currentStateSet = False
         self.clear_widgets()
         self.displaySignIn()
+
+    # Method to change to the Home Page
+    def ChangeToHomePage(self,button):
+        self.clear_widgets()
+        self.DisplayHomeScreen()
+
+    def ChangeToMakeHouse(self,button):
+        self.clear_widgets()
+        self.DisplayMakeHouse()
+    
+    def ChangeToSeeHouse(self,button):
+        self.clear_widgets()
+        self.DisplaySeeHouse()
 
     # Displaying the Sign Up Page
     def displaySignUp(self):
@@ -117,10 +126,107 @@ class ChoreManagerInterface(BoxLayout):
 
         # Button for Sign Up
         btn1 = Button(text='Sign In', size_hint=(0.6, None), height=60)  # Set size explicitly
-        btn1.bind(on_press=lambda x: self.sign_up(name_input.text, password_input.text))  # Bind to sign-up logic
+        btn1.bind(on_press=lambda x: self.sign_in(name_input.text, password_input.text))  # Bind to signin logic
         center_layout.add_widget(btn1)
 
         self.add_widget(center_layout)  # Add the centered layout to the main layout
+    
+    # Displaying the Home Screen Page
+    def DisplayHomeScreen(self):
+        # Create a BoxLayout with vertical orientation
+        main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
+
+        # Center the layout on the screen
+        main_layout.size_hint = (None, None)
+        main_layout.size = (800, 800)  # Set width and height of the button container
+        main_layout.pos_hint = {"center_x": 0.5, "center_y": 0.5}
+
+        # Create the buttons with their properties and bindings
+        btn1 = Button(text="Make House Chores", size=(700,300))
+        btn1.bind(on_press=self.ChangeToMakeHouse)
+
+        btn2 = Button(text="See a House Chores",size=(700,300))
+        btn2.bind(on_press=self.ChangeToSeeHouse)
+
+        # Add buttons to the layout
+        main_layout.add_widget(btn1)
+        main_layout.add_widget(btn2)
+
+        # Add the layout to the main widget
+        self.add_widget(main_layout)
+
+    # Displaying the Make House Page
+    def DisplayMakeHouse(self):
+        # Create a BoxLayout with vertical orientation
+        main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
+        # Collecting the house name from the user
+        houseName_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
+        HouseName = Label()
+        HouseName.text = "House Name : "
+        HouseNameInput = TextInput()
+        houseName_layout.add_widget(HouseName)
+        houseName_layout.add_widget(HouseNameInput)
+        # Area to add chores to the house
+        addChore_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
+        self.AddChoreInput = TextInput() #Self so that this can be accessed in other functions
+        AddChoreButton = Button(text="Add Chore")
+        AddChoreButton.bind(on_press=self.addChore)
+        addChore_layout.add_widget(self.AddChoreInput)
+        addChore_layout.add_widget(AddChoreButton)
+        # Area Below to display the chores
+        # One chore is added each time the user clicks add chore
+        self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
+        # Make House Button
+        MakeHouseButton = Button(text="Make House")
+        # Adding all these items to the page
+        self.add_widget(houseName_layout)
+        self.add_widget(addChore_layout)
+        self.add_widget(self.chores_layout)
+        self.add_widget(MakeHouseButton)
+    
+    #Code used to add chore to chore layout
+    def addChore(self,instance):
+        # Get the text from the input field
+        task_text = self.AddChoreInput.text.strip()
+        
+        # Only add if there's input text
+        if task_text:
+            # Add the task as a new label in the tasks layout
+            task_label = Label(text=task_text, size_hint_y=None, height=40)
+            self.chores_layout.add_widget(task_label)
+            
+            # Clear the input field after adding the task
+            self.AddChoreInput.text = ""
+
+    # Displaying the See House Page
+    def DisplaySeeHouse(self):
+        HouseName = Label()
+        HouseName.text = "House Name"  # Get this value from the database
+        AddFlatMates = Label()
+        AddFlatMates.text = "Add Flat Mates : "
+        FlatMateUserName = TextInput()
+        AddFlatMateButton = Button(text="Add Flat Mate")
+        TimetableText = Label()
+        TimetableText.text = "Timetable"
+        # This is where the timetable should be displayed
+        EmptyText = Label()
+        # Outputting the information to the screen
+        self.add_widget(HouseName)
+        self.add_widget(AddFlatMates)
+        self.add_widget(FlatMateUserName)
+        self.add_widget(AddFlatMateButton)
+        self.add_widget(TimetableText)
+        self.add_widget(EmptyText)
+
+    #Making the Sign Up Logic for the page
+    def sign_up(self,username,password):
+        self.clear_widgets()
+        self.DisplayHomeScreen()
+    
+    #Making the Sign In Logic for the page
+    def sign_in(self,username,password):
+        self.clear_widgets()
+        self.DisplayHomeScreen()
 
         # store = firestore.client()
         # usersRef = store.collection("users")
