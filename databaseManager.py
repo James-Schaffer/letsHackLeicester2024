@@ -164,6 +164,7 @@ class DatabaseManager:
         print(f"{usernameToAdd} added to flat with ID: {flatID}")
 
     def GetUserFlatFromUsername(self, username):
+        print(username)
         user = self.GetUserData(username=username)
 
         if user == 404:

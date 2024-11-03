@@ -18,9 +18,9 @@ class ChoreManagerApp(App):
 class ChoreManagerInterface(BoxLayout):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        # Start with an empty layout
-        self.currentState = "None"
-        self.currentStateSet = False
+        # Setting some base variables
+        self.chores = []
+        self.users = []
         # Set background color for the app
         with self.canvas.before:
             Color(0.2, 0.2, 0.2, 1)
@@ -267,7 +267,7 @@ class ChoreManagerInterface(BoxLayout):
         btn1 = Button(text="Make House Chores", font_size="60sp",size_hint=(None,None),size=(1200,300))
         btn1.bind(on_press=self.ChangeToMakeHouse)
 
-        btn2 = Button(text="See a House Chores",font_size="60sp",size_hint=(None,None),size=(1200,300))
+        btn2 = Button(text="See House Chores",font_size="60sp",size_hint=(None,None),size=(1200,300))
         btn2.bind(on_press=self.ChangeToSeeHouse)
 
         # Add buttons to the layout
@@ -329,7 +329,7 @@ class ChoreManagerInterface(BoxLayout):
 
         # "Make House" button
         makeHouseButton = Button(text="Make House", size_hint=(1, None), height=80, font_size=30)
-        makeHouseButton.bind(on_press=self.ChangeToSeeHouse)
+        makeHouseButton.bind(on_press= lambda x : self.MakeHouse(houseNameInput.text))
 
         # Back button
         backBtn = Button(text="Back", size_hint=(0.2, None), height=50, font_size=20)
@@ -354,6 +354,8 @@ class ChoreManagerInterface(BoxLayout):
             self.choresLayout.add_widget(chore_label)
             # Clear the input field after adding the chore
             self.addChoreInput.text = ""
+            # Adding the chore to the chores array
+            self.chores.append(chore_text)
 
     def addUser(self, instance):
         # Get the user name text from the input field
@@ -364,14 +366,26 @@ class ChoreManagerInterface(BoxLayout):
             self.usersLayout.add_widget(user_label)
             # Clear the input field after adding the user
             self.addUserInput.text = ""
+            self.users.append(user_text)
+
+    #Function to Make a House, using the given information
+    def MakeHouse(self,houseName):
+        #Making the flat, using the username and flatName
+        self.DbM.CreateNewFlat(houseName,self.DbM.username)
+        #Opening up the flat in see house
+        self.clear_widgets()
+        self.DisplaySeeHouse()
 
     # Displaying the See House Page
     def DisplaySeeHouse(self):
         userFlatsRef = self.DbM.GetUserFlatFromUsername(self.DbM.username)[0].to_dict()
         flatRef = self.DbM.GetFlatData(userFlatsRef["flatID"])
+        flatDictionary = flatRef.to_dict()
+        flatName = flatDictionary["flatName"]
 
-        HouseName = Label()
-        HouseName.text = "House Name : " + flatRef.to_dict()["flatName"] # Get this value from the database
+
+        HouseName = Label(text=flatName)
+        #HouseName.text = "House Name : " + flatRef.to_dict()["flatName"] # Get this value from the database
         AddFlatMates = Label()
         AddFlatMates.text = "Add Flat Mates : "
         FlatMateUserName = TextInput()
