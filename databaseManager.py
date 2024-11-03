@@ -230,3 +230,15 @@ class DatabaseManager:
             return True
         except:
             return False
+
+    def SetUserTaskComplete(self, userFlatTaskID):
+        userFlatTaskRef = self.store.collection("userFlatTasks").document(userFlatTaskID)
+
+        userFlatTask = userFlatTaskRef.get()
+
+        # Check if the user exists
+        if not userFlatTask.exists:
+            print("Flat does not exist.")
+            return 404
+        
+        userFlatTaskRef.set({"complete": True}, merge=True)
