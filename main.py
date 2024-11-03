@@ -160,18 +160,18 @@ class ChoreManagerInterface(BoxLayout):
     # Displaying the Home Screen Page
     def DisplayHomeScreen(self):
         # Create a BoxLayout with vertical orientation
-        main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
+        main_layout = BoxLayout(orientation="vertical", padding=20, spacing=100)
 
         # Center the layout on the screen
         main_layout.size_hint = (None, None)
         main_layout.size = (800, 800)  # Set width and height of the button container
-        main_layout.pos_hint = {"center_x": 0.5, "center_y": 0.5}
+        main_layout.padding = [200, 40, 40, 200]
 
         # Create the buttons with their properties and bindings
-        btn1 = Button(text="Make House Chores", size=(700,300))
+        btn1 = Button(text="Make House Chores", font_size="60sp",size_hint=(None,None),size=(1200,300))
         btn1.bind(on_press=self.ChangeToMakeHouse)
 
-        btn2 = Button(text="See a House Chores",size=(700,300))
+        btn2 = Button(text="See a House Chores",font_size="60sp",size_hint=(None,None),size=(1200,300))
         btn2.bind(on_press=self.ChangeToSeeHouse)
 
         # Add buttons to the layout
@@ -196,9 +196,9 @@ class ChoreManagerInterface(BoxLayout):
         main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
         # Collecting the house name from the user
         houseName_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        HouseName = Label()
+        HouseName = Label(font_size="30sp")
         HouseName.text = "House Name : "
-        HouseNameInput = TextInput()
+        HouseNameInput = TextInput(size_hint=(None, None), size=(400, 100),pos_hint={'x': 0.50, 'y': 0.5})
         houseName_layout.add_widget(HouseName)
         houseName_layout.add_widget(HouseNameInput)
         # Area to add chores to the house
@@ -212,7 +212,13 @@ class ChoreManagerInterface(BoxLayout):
         # One chore is added each time the user clicks add chore
         self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
         # Make House Button
-        MakeHouseButton = Button(text="Make House")
+        MakeHouseButton = Button(text="Make House",font_size="60sp")
+        MakeHouseButton.bind(on_press=self.DisplaySeeHouse)
+        # Adding all these items to the page
+        self.add_widget(houseName_layout)
+        self.add_widget(addChore_layout)
+        self.add_widget(self.chores_layout)
+        self.add_widget(MakeHouseButton)
 
         # Create a horizontal layout for the buttons
         backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
