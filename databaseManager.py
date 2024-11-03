@@ -63,6 +63,9 @@ class DatabaseManager:
     
     def LoginReq(self, username, password):
         user = self.GetUserData(username=username)
+
+        if user == 404:
+            return 404
         
         if user.to_dict()["password"] != password:
             print("Password incorrect, only userId returned")

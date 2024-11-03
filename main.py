@@ -289,7 +289,7 @@ class ChoreManagerInterface(BoxLayout):
     def sign_in(self,username,password):
         ret = self.DbM.LoginReq(username, password)
 
-        if ret == 401:
+        if ret == 401 or ret == 404:
             return None
 
         self.clear_widgets()
