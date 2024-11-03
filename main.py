@@ -38,7 +38,7 @@ class ChoreManagerInterface(BoxLayout):
 
     def create_initial_buttons(self):
         # Set padding for the entire layout
-        self.padding = [20, 50, 20, 20]  # left, top, right, bottom padding
+        self.padding = [20, "50dp", 20, 20]  # left, top, right, bottom padding
 
         # Add the heading
         heading_label = Label(
@@ -67,11 +67,11 @@ class ChoreManagerInterface(BoxLayout):
         self.add_widget(desc_label)  # Add heading to the main layout
 
         # Add a blank widget as a spacer
-        spacer = Widget(size_hint=(1, None), height=20)  # Adjust height as needed for spacing
+        spacer = Widget(size_hint=(1, None), height="20dp")  # Adjust height as needed for spacing
         self.add_widget(spacer)
 
         # Create a horizontal layout for the buttons
-        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=900, spacing=20)
+        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height="150dp", spacing=20)
         
         btn_sign_up = Button(
             text='Sign Up',
@@ -99,6 +99,10 @@ class ChoreManagerInterface(BoxLayout):
 
         # Add the button layout to the main layout
         self.add_widget(button_layout)
+
+        # Add a blank widget as a spacer
+        spacer = Widget(size_hint=(1, 0.2))  # Adjust height as needed for spacing
+        self.add_widget(spacer)
 
     # Methond to change to initial page
     def ChangeToIntials(self,button):
@@ -134,7 +138,7 @@ class ChoreManagerInterface(BoxLayout):
         self.spacing = 10
 
         # Create a layout to center the inputs and button
-        center_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(1, None), height=300)
+        center_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(1, None), height="150dp")
         center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
 
         # Add the heading
@@ -155,7 +159,8 @@ class ChoreManagerInterface(BoxLayout):
             hint_text='Enter your username',
             font_name="InriaSans-Regular.ttf", 
             size_hint=(0.6, None), 
-            height=50)
+            height=50,
+            multiline=False)
         center_layout.add_widget(name_input)
 
         # Password input
@@ -163,7 +168,9 @@ class ChoreManagerInterface(BoxLayout):
             hint_text='Enter your password', 
             font_name="InriaSans-Regular.ttf",
             size_hint=(0.6, None), 
-            height=50)
+            height=50,
+            password=True,
+            multiline=False)
         center_layout.add_widget(password_input)
 
         # Button for Sign Up
@@ -197,7 +204,7 @@ class ChoreManagerInterface(BoxLayout):
 
         # Create a layout to center the inputs and button
         center_layout = BoxLayout(orientation='vertical', spacing=10, size_hint=(1, None), height=300)
-        center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
+        center_layout.padding = ["240dp", "20dp", "20dp", "250dp"]  # Add padding around the layout
 
         # Add the heading
         heading_label = Label(
@@ -224,7 +231,9 @@ class ChoreManagerInterface(BoxLayout):
             hint_text='Enter your password', 
             font_name="InriaSans-Bold.ttf",
             size_hint=(0.6, None), 
-            height=50)
+            height=50,
+            password=True,
+            multiline=False)
         center_layout.add_widget(password_input)
 
         # Button for Sign Up
