@@ -29,7 +29,6 @@ class ChoreManagerInterface(BoxLayout):
 
         self.DbM = DatabaseManager()
 
-
         # Create the buttons to switch states
         self.create_initial_buttons()
 
@@ -359,8 +358,11 @@ class ChoreManagerInterface(BoxLayout):
 
     # Displaying the See House Page
     def DisplaySeeHouse(self):
+        userFlatsRef = self.DbM.GetUserFlatFromUsername(self.DbM.username)[0].to_dict()
+        flatRef = self.DbM.GetFlatData(userFlatsRef["flatID"])
+
         HouseName = Label()
-        HouseName.text = "House Name"  # Get this value from the database
+        HouseName.text = "House Name : " + flatRef.to_dict()["flatName"] # Get this value from the database
         AddFlatMates = Label()
         AddFlatMates.text = "Add Flat Mates : "
         FlatMateUserName = TextInput()
