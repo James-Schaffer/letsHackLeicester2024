@@ -30,7 +30,12 @@ class LoginSignupMenu(BoxLayout):
         x = DatabaseManager()
 
         x.GetUserData("james", "12345")
+        x.GetUserData("barry", "barryiscool")
+
+        x.CreateNewUser("barry", "barry@barrymail.foo", "barryiscool")
     
+        x.CreateNewFlat("flat 100", "james", "12345")
+
     def LoadMenu(self, i):
         self.remove_widget(self.children[1])
 
