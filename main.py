@@ -228,11 +228,6 @@ class ChoreManagerInterface(BoxLayout):
         back_btn.bind(on_press=self.ChangeToHomePage)
         backBtn_layout.add_widget(back_btn)
 
-        # Adding all these items to the page
-        self.add_widget(houseName_layout)
-        self.add_widget(addChore_layout)
-        self.add_widget(self.chores_layout)
-        self.add_widget(MakeHouseButton)
         self.add_widget(backBtn_layout)
     
     #Code used to add chore to chore layout
