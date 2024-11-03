@@ -7,8 +7,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.clock import Clock
 
-import firebase_admin
-from firebase_admin import credentials, firestore
+import databaseManager
 
 class ChoreManagerApp(App):
     def build(self):
@@ -284,13 +283,6 @@ class ChoreManagerInterface(BoxLayout):
 
         # store = firestore.client()
         # usersRef = store.collection("users")
-
-        # for user in usersRef.get():
-        #     self.add_widget(Label(text=str(user.to_dict())))
-
-    def sign_in(self, email, password):
-        # Logic for signing in the user
-        print(f"Email: {email}, Password: {password}")
 
 #=======================================================================================================
 
