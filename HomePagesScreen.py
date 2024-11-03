@@ -3,6 +3,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
+from kivy.uix.scrollview import ScrollView
 
 
 class ChoreManagerApp(App):
@@ -68,32 +69,41 @@ class ChoreManagerInterface(BoxLayout):
 
     # Displaying the Make House Page
     def DisplayMakeHouse(self):
-        # Create a BoxLayout with vertical orientation
+        # Main layout
         main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
+
         # Collecting the house name from the user
-        houseName_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        HouseName = Label()
-        HouseName.text = "House Name : "
-        HouseNameInput = TextInput()
-        houseName_layout.add_widget(HouseName)
-        houseName_layout.add_widget(HouseNameInput)
+        house_name_layout = BoxLayout(orientation="horizontal", padding=10, spacing=10, size_hint=(1, None), height=50)
+        house_name_label = Label(text="House Name:", size_hint=(0.3, 1), font_size=18, halign="right", valign="middle")
+        house_name_label.bind(size=house_name_label.setter("text_size"))
+        house_name_input = TextInput(size_hint=(0.7, 1), font_size=18, multiline=False)
+        house_name_layout.add_widget(house_name_label)
+        house_name_layout.add_widget(house_name_input)
+
         # Area to add chores to the house
-        addChore_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        self.AddChoreInput = TextInput() #Self so that this can be accessed in other functions
-        AddChoreButton = Button(text="Add Chore")
-        AddChoreButton.bind(on_press=self.addChore)
-        addChore_layout.add_widget(self.AddChoreInput)
-        addChore_layout.add_widget(AddChoreButton)
-        # Area Below to display the chores
-        # One chore is added each time the user clicks add chore
-        self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
-        # Make House Button
-        MakeHouseButton = Button(text="Make House")
-        # Adding all these items to the page
-        self.add_widget(houseName_layout)
-        self.add_widget(addChore_layout)
-        self.add_widget(self.chores_layout)
-        self.add_widget(MakeHouseButton)
+        add_chore_layout = BoxLayout(orientation="horizontal", padding=10, spacing=10, size_hint=(1, None), height=50)
+        self.add_chore_input = TextInput(size_hint=(0.7, 1), font_size=18, multiline=False, hint_text="Enter a chore")
+        add_chore_button = Button(text="Add Chore", size_hint=(0.3, 1), font_size=18)
+        add_chore_button.bind(on_press=self.addChore)
+        add_chore_layout.add_widget(self.add_chore_input)
+        add_chore_layout.add_widget(add_chore_button)
+
+        # Area to display the list of chores (using ScrollView for scrolling capability)
+        scroll_view = ScrollView(size_hint=(1, 0.6))
+        self.chores_layout = BoxLayout(orientation="vertical", padding=10, spacing=10, size_hint_y=None)
+        self.chores_layout.bind(minimum_height=self.chores_layout.setter("height"))
+        scroll_view.add_widget(self.chores_layout)
+
+        # "Make House" button
+        make_house_button = Button(text="Make House", size_hint=(1, None), height=50, font_size=18)
+        
+        # Adding all components to the main layout
+        main_layout.add_widget(house_name_layout)
+        main_layout.add_widget(add_chore_layout)
+        main_layout.add_widget(scroll_view)
+        main_layout.add_widget(make_house_button)
+
+        return main_layout
     
     #Code used to add chore to chore layout
     def addChore(self,instance):

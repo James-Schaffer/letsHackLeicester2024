@@ -195,48 +195,53 @@ class ChoreManagerInterface(BoxLayout):
 
     # Displaying the Make House Page
     def DisplayMakeHouse(self):
-        # Create a BoxLayout with vertical orientation
+        # Main layout
         main_layout = BoxLayout(orientation="vertical", padding=20, spacing=20)
-        # Collecting the house name from the user
-        houseName_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        HouseName = Label(font_size="30sp")
-        HouseName.text = "House Name : "
-        HouseNameInput = TextInput(size_hint=(None, None), size=(400, 100),pos_hint={'x': 0.50, 'y': 0.5})
-        houseName_layout.add_widget(HouseName)
-        houseName_layout.add_widget(HouseNameInput)
-        # Area to add chores to the house
-        addChore_layout = BoxLayout(orientation="horizontal",padding=20,spacing=20)
-        self.AddChoreInput = TextInput() #Self so that this can be accessed in other functions
-        AddChoreButton = Button(text="Add Chore")
-        AddChoreButton.bind(on_press=self.addChore)
-        addChore_layout.add_widget(self.AddChoreInput)
-        addChore_layout.add_widget(AddChoreButton)
-        # Area Below to display the chores
-        # One chore is added each time the user clicks add chore
-        self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
-        # Make House Button
-        MakeHouseButton = Button(text="Make House",font_size="60sp")
-        MakeHouseButton.bind(on_press=self.DisplaySeeHouse)
-        # Adding all these items to the page
-        self.add_widget(houseName_layout)
-        self.add_widget(addChore_layout)
-        self.add_widget(self.chores_layout)
-        self.add_widget(MakeHouseButton)
 
-        # Create a horizontal layout for the buttons
+        # Collecting the house name from the user
+        house_name_layout = BoxLayout(orientation="horizontal", padding=10, spacing=10, size_hint=(1, None), height=80)
+        house_name_label = Label(text="House Name:", size_hint=(0.3, 1), font_size=30, halign="right", valign="middle")
+        house_name_label.bind(size=house_name_label.setter("text_size"))
+        house_name_input = TextInput(size_hint=(0.7, 1), font_size=30, multiline=False)
+        house_name_layout.add_widget(house_name_label)
+        house_name_layout.add_widget(house_name_input)
+
+        # Area to add chores to the house
+        add_chore_layout = BoxLayout(orientation="horizontal", padding=10, spacing=10, size_hint=(1, None), height=80)
+        self.add_chore_input = TextInput(size_hint=(0.7, 1), font_size=30, multiline=False, hint_text="Enter a chore")
+        add_chore_button = Button(text="Add Chore", size_hint=(0.3, 1), font_size=30)
+        add_chore_button.bind(on_press=self.addChore)
+        add_chore_layout.add_widget(self.add_chore_input)
+        add_chore_layout.add_widget(add_chore_button)
+
+        # Area to display the list of chores (using ScrollView for scrolling capability)
+        scroll_view = ScrollView(size_hint=(1, 0.6))
+        self.chores_layout = BoxLayout(orientation="vertical", padding=10, spacing=10, size_hint_y=None)
+        self.chores_layout.bind(minimum_height=self.chores_layout.setter("height"))
+        scroll_view.add_widget(self.chores_layout)
+
+        # "Make House" button
+        make_house_button = Button(text="Make House", size_hint=(1, None), height=80, font_size=30)
+        make_house_button.bind(on_press=self.ChangeToSeeHouse)
+
+        # Create a horizontal layout for the back buttons
         backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
-       
-        #Back button to display home screen
         back_btn=Button(text='Back')
         back_btn.bind(on_press=self.ChangeToHomePage)
         backBtn_layout.add_widget(back_btn)
+        
+        # Adding all components to the main layout
+        main_layout.add_widget(house_name_layout)
+        main_layout.add_widget(add_chore_layout)
+        main_layout.add_widget(scroll_view)
+        main_layout.add_widget(make_house_button)
+        main_layout.add_widget(backBtn_layout)
+        self.add_widget(main_layout)
 
-        self.add_widget(backBtn_layout)
-    
     #Code used to add chore to chore layout
     def addChore(self,instance):
         # Get the text from the input field
-        task_text = self.AddChoreInput.text.strip()
+        task_text = self.add_chore_input.text.strip()
         
         # Only add if there's input text
         if task_text:
@@ -245,7 +250,7 @@ class ChoreManagerInterface(BoxLayout):
             self.chores_layout.add_widget(task_label)
             
             # Clear the input field after adding the task
-            self.AddChoreInput.text = ""
+            self.add_chore_input.text = ""
 
     # Displaying the See House Page
     def DisplaySeeHouse(self):
