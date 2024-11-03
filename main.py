@@ -7,7 +7,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.clock import Clock
 
-import databaseManager
+from databaseManager import DatabaseManager
 
 class ChoreManagerApp(App):
     def build(self):
@@ -19,6 +19,9 @@ class ChoreManagerInterface(BoxLayout):
         # Start with an empty layout
         self.currentState = "None"
         self.currentStateSet = False
+
+        self.DbM = DatabaseManager()
+
 
         # Create the buttons to switch states
         self.create_initial_buttons()
@@ -219,11 +222,21 @@ class ChoreManagerInterface(BoxLayout):
 
     #Making the Sign Up Logic for the page
     def sign_up(self,username,password):
+        if username == "" or password == "":
+            return None
+
+        self.DbM.CreateNewUser(username=username, password=password, email="foo@bar.com")
+
         self.clear_widgets()
-        self.DisplayHomeScreen()
+        self.displaySignIn()
     
     #Making the Sign In Logic for the page
     def sign_in(self,username,password):
+        ret = self.DbM.LoginReq(username, password)
+
+        if ret == 401:
+            return None
+
         self.clear_widgets()
         self.DisplayHomeScreen()
 
