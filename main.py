@@ -6,6 +6,8 @@ from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.clock import Clock
+from kivy.uix.widget import Widget
+from kivy.graphics import Color, Rectangle
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -20,23 +22,74 @@ class ChoreManagerInterface(BoxLayout):
         # Start with an empty layout
         self.currentState = "None"
         self.currentStateSet = False
+        # Set background color for the app
+        with self.canvas.before:
+            Color(0.2, 0.2, 0.2, 1)
+            self.rect = Rectangle(size=self.size, pos=self.pos)
+        self.bind(size=self.update_rect, pos=self.update_rect)
 
         # Create the buttons to switch states
         self.create_initial_buttons()
 
+    def update_rect(self, *args):
+        self.rect.size = self.size
+        self.rect.pos = self.pos
+
     def create_initial_buttons(self):
-        
+        # Set padding for the entire layout
+        self.padding = [20, 50, 20, 20]  # left, top, right, bottom padding
+
         # Add the heading
-        heading_label = Label(text='Welcome to Chore Manager', font_size='25sp', size_hint=(1, None), height=50)
+        heading_label = Label(
+            text='Welcome to Chore Manager',
+            font_name="InriaSans-Bold.ttf",
+            font_size='50sp',
+            color=('#338b6b'),  
+            size_hint=(1, None),
+            height=50
+        )
         self.add_widget(heading_label)  # Add heading to the main layout
+        
+        # Add a blank widget as a spacer
+        spacer = Widget(size_hint=(1, None), height=35)  # Adjust height as needed for spacing
+        self.add_widget(spacer)
+
+        # Add the heading
+        desc_label = Label(
+            text='Make chores a team effort',
+            font_name="InriaSans-Regular.ttf",
+            font_size='25sp',
+            color=(0.8, 0.8, 0.8, 1),  
+            size_hint=(1, None),
+            height=50
+        )
+        self.add_widget(desc_label)  # Add heading to the main layout
+
+        # Add a blank widget as a spacer
+        spacer = Widget(size_hint=(1, None), height=20)  # Adjust height as needed for spacing
+        self.add_widget(spacer)
 
         # Create a horizontal layout for the buttons
-        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=60, spacing=10)
-
-        btn_sign_up = Button(text='Sign Up', size_hint=(.5, 1))
+        button_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=900, spacing=20)
+        
+        btn_sign_up = Button(
+            text='Sign Up',
+            size_hint=(.5, 1),
+            font_name="InriaSans-Regular.ttf",
+            background_color=(0.2, 0.8, 0.6, 1),  # Green background
+            color=(1, 1, 1, 1),  # White text
+            font_size='20sp'
+        )
         btn_sign_up.bind(on_press=self.ChangeToSignUp)
         
-        btn_sign_in = Button(text='Sign In', size_hint=(.5, 1))
+        btn_sign_in = Button(
+            text='Sign In',
+            size_hint=(.5, 1),
+            font_name="InriaSans-Regular.ttf",
+            background_color=(0.2, 0.6, 0.8, 1),  # Blue background
+            color=(1, 1, 1, 1),  # White text
+            font_size='20sp'
+        )
         btn_sign_in.bind(on_press=self.ChangeToSignIn)
 
         # Add the buttons to the button layout
@@ -45,7 +98,7 @@ class ChoreManagerInterface(BoxLayout):
 
         # Add the button layout to the main layout
         self.add_widget(button_layout)
-
+        
     # Method to change to the Sign Up state
     def ChangeToSignUp(self, button):
         self.clear_widgets()
@@ -79,27 +132,45 @@ class ChoreManagerInterface(BoxLayout):
         center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
 
         # Add the heading
-        heading_label = Label(text='Sign Up', font_size='25sp', size_hint=(1, None), height=50)
+        heading_label = Label(
+            text='Sign Up',
+            color=('#338b6b'), 
+            font_name="InriaSans-Bold.ttf", 
+            font_size='25sp', 
+            size_hint=(1, None), 
+            height=50)
         heading_label.bind(size=heading_label.setter('text_size'))  # Ensure text is wrapped
         center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
         center_layout.add_widget(heading_label)
 
 
         # Userame input
-        name_input = TextInput(hint_text='Enter your username', size_hint=(0.6, None), height=50)
+        name_input = TextInput(
+            hint_text='Enter your username',
+            font_name="InriaSans-Regular.ttf", 
+            size_hint=(0.6, None), 
+            height=50)
         center_layout.add_widget(name_input)
 
         # Password input
-        password_input = TextInput(hint_text='Enter your password', size_hint=(0.6, None), height=50)
+        password_input = TextInput(
+            hint_text='Enter your password', 
+            font_name="InriaSans-Regular.ttf",
+            size_hint=(0.6, None), 
+            height=50)
         center_layout.add_widget(password_input)
 
         # Button for Sign Up
-        btn1 = Button(text='Sign Up', size_hint=(0.6, None), height=60)  # Set size explicitly
+        btn1 = Button(
+            text='Sign Up', 
+            font_name="InriaSans-Regular.ttf",
+            background_color=('#338b6b'), 
+            size_hint=(0.6, None), 
+            height=60)  # Set size explicitly
         btn1.bind(on_press=lambda x: self.sign_up(name_input.text, password_input.text))  # Bind to sign-up logic
         center_layout.add_widget(btn1)
 
         self.add_widget(center_layout)  # Add the centered layout to the main layout
-
 
     # Displaying the Sign In Page
     def displaySignIn(self):
@@ -111,17 +182,31 @@ class ChoreManagerInterface(BoxLayout):
         center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
 
         # Add the heading
-        heading_label = Label(text='Sign In', font_size='25sp', size_hint=(1, None), height=50)
+        heading_label = Label(
+            text='Sign In', 
+            color=('#338b6b'), 
+            font_name="InriaSans-Bold.ttf",
+            font_size='25sp', 
+            size_hint=(1, None), 
+            height=50)
         heading_label.bind(size=heading_label.setter('text_size'))  # Ensure text is wrapped
         center_layout.padding = [460, 20, 20, 500]  # Add padding around the layout
         center_layout.add_widget(heading_label)
 
         # Wrap username input
-        name_input = TextInput(hint_text='Enter your username', size_hint=(0.6, None), height=50)
+        name_input = TextInput(
+            hint_text='Enter your username', 
+            font_name="InriaSans-Bold.ttf",
+            size_hint=(0.6, None), 
+            height=50)
         center_layout.add_widget(name_input)
 
         # Wrap password input
-        password_input = TextInput(hint_text='Enter your password', size_hint=(0.6, None), height=50)
+        password_input = TextInput(
+            hint_text='Enter your password', 
+            font_name="InriaSans-Bold.ttf",
+            size_hint=(0.6, None), 
+            height=50)
         center_layout.add_widget(password_input)
 
         # Button for Sign Up
