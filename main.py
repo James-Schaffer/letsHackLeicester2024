@@ -46,6 +46,11 @@ class ChoreManagerInterface(BoxLayout):
         # Add the button layout to the main layout
         self.add_widget(button_layout)
 
+    # Methond to change to initial page
+    def ChangeToIntials(self,button):
+        self.clear_widgets()
+        self.create_initial_buttons()
+
     # Method to change to the Sign Up state
     def ChangeToSignUp(self, button):
         self.clear_widgets()
@@ -99,6 +104,18 @@ class ChoreManagerInterface(BoxLayout):
         center_layout.add_widget(btn1)
 
         self.add_widget(center_layout)  # Add the centered layout to the main layout
+        
+        # Create a horizontal layout for the buttons
+        backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
+       
+        #Back button to display home screen
+        back_btn=Button(text='Back')
+        back_btn.bind(on_press=self.ChangeToIntials)
+
+        backBtn_layout.add_widget(back_btn)
+
+        # Add the button layout to the main layout
+        self.add_widget(backBtn_layout)
 
 
     # Displaying the Sign In Page
@@ -130,6 +147,16 @@ class ChoreManagerInterface(BoxLayout):
         center_layout.add_widget(btn1)
 
         self.add_widget(center_layout)  # Add the centered layout to the main layout
+
+        # Create a horizontal layout for the back buttons
+        backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
+        back_btn=Button(text='Back')
+        back_btn.bind(on_press=self.ChangeToIntials)
+
+        backBtn_layout.add_widget(back_btn)
+
+        # Add the button layout to the main layout
+        self.add_widget(backBtn_layout)
     
     # Displaying the Home Screen Page
     def DisplayHomeScreen(self):
@@ -155,6 +182,15 @@ class ChoreManagerInterface(BoxLayout):
         # Add the layout to the main widget
         self.add_widget(main_layout)
 
+        # Create a horizontal layout for the buttons
+        logout_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
+       
+        #Back button to display home screen
+        logout_btn=Button(text='Log Out')
+        logout_btn.bind(on_press=self.ChangeToIntials)
+        logout_layout.add_widget(logout_btn)
+        self.add_widget(logout_layout)
+
     # Displaying the Make House Page
     def DisplayMakeHouse(self):
         # Create a BoxLayout with vertical orientation
@@ -178,11 +214,21 @@ class ChoreManagerInterface(BoxLayout):
         self.chores_layout = BoxLayout(orientation="vertical",padding=20,spacing=20)
         # Make House Button
         MakeHouseButton = Button(text="Make House")
+
+        # Create a horizontal layout for the buttons
+        backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
+       
+        #Back button to display home screen
+        back_btn=Button(text='Back')
+        back_btn.bind(on_press=self.ChangeToHomePage)
+        backBtn_layout.add_widget(back_btn)
+
         # Adding all these items to the page
         self.add_widget(houseName_layout)
         self.add_widget(addChore_layout)
         self.add_widget(self.chores_layout)
         self.add_widget(MakeHouseButton)
+        self.add_widget(backBtn_layout)
     
     #Code used to add chore to chore layout
     def addChore(self,instance):
@@ -210,6 +256,13 @@ class ChoreManagerInterface(BoxLayout):
         TimetableText.text = "Timetable"
         # This is where the timetable should be displayed
         EmptyText = Label()
+
+        # Create a horizontal layout for the back buttons
+        backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
+        back_btn=Button(text='Back')
+        back_btn.bind(on_press=self.ChangeToHomePage)
+        backBtn_layout.add_widget(back_btn)
+
         # Outputting the information to the screen
         self.add_widget(HouseName)
         self.add_widget(AddFlatMates)
@@ -217,6 +270,7 @@ class ChoreManagerInterface(BoxLayout):
         self.add_widget(AddFlatMateButton)
         self.add_widget(TimetableText)
         self.add_widget(EmptyText)
+        self.add_widget(backBtn_layout)
 
     #Making the Sign Up Logic for the page
     def sign_up(self,username,password):
