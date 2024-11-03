@@ -16,6 +16,8 @@ class DatabaseManager:
         firebase_admin.initialize_app(self.cred)
         self.store = firestore.client()
 
+        self.username = None
+
     def UserfromUsername(self, username):
         userRef = self.store.collection("users").where(filter=FieldFilter("username", "==", username))
         
@@ -68,8 +70,10 @@ class DatabaseManager:
             return 404
         
         if user.to_dict()["password"] != password:
-            print("Password incorrect, only userId returned")
+            print("Password incorrect")
             return 401
+        
+        self.username = username
 
         return user
     
@@ -159,35 +163,44 @@ class DatabaseManager:
 
         print(f"{usernameToAdd} added to flat with ID: {flatID}")
 
-    def GetUserFlat(self, flatID, username):
+    def GetUserFlatFromUsername(self, username):
         user = self.GetUserData(username=username)
 
         if user == 404:
             print("user does not exist")
             return None
         
-        userFlatRef = self.store.collection("userFlats").where(filter=FieldFilter("userID", "==", user.id)).where(filter=FieldFilter("flatID", "==", flatID))
+        userFlatRef = self.store.collection("userFlats").where(filter=FieldFilter("userID", "==", user.id))
         
         userFlat = userFlatRef.stream()
 
         # Check if the user exists
         found = False
+        tmp = []
         for userFlata in userFlat:
             found = True  # If we enter the loop, it means a user was found
             print(f"UserFlat found: {userFlata.id}")
             # Optionally, you can access the user's data with user.to_dict()
             print(userFlata.to_dict())
+            tmp.append(userFlata)
 
         if not found:
             print("User is not in flat")
             return 404
         
-        return userFlat
+        return tmp
     
     def GetTaskForUserFlat(self, username, flatID):
-        userFlat = self.GetUserFlat(flatID, username)
+        userFlats = self.GetUserFlatFromUsername(username)
+
+        if userFlats == 404:
+            return None
+
+        for userFlat in userFlats:
+            if userFlat.id == flatID:
+                continue
         
-        userFlatTaskRef = self.store.collection("userFlatTasks").where(filter=FieldFilter("userFlatID", "==", userFlata.id))
+        userFlatTaskRef = self.store.collection("userFlatTasks").where(filter=FieldFilter("userFlatID", "==", userFlat.id))
         
         userFlatTask = userFlatTaskRef.stream()
 
