@@ -395,6 +395,46 @@ class ChoreManagerInterface(BoxLayout):
         # This is where the timetable should be displayed
         EmptyText = Label()
 
+        TimetableContainer = BoxLayout(orientation="horizontal")
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+        TimetableDayTMP.add_widget(Label(text="James take out bins"))
+        TimetableDayTMP.add_widget(Label(text="Bob clean counter"))
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+        TimetableDayTMP.add_widget(Label(text="Bob take out bins"))
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+        TimetableDayTMP.add_widget(Label(text="James hoover the kitchen"))
+        TimetableDayTMP.add_widget(Label(text="James clean counter"))
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+        TimetableDayTMP.add_widget(Label(text="Bob take out the bins"))
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        TimetableDayTMP = BoxLayout(orientation="vertical")
+        TimetableDayTMP.add_widget(Label(text="James take out bins"))
+        TimetableDayTMP.add_widget(Label(text="Bob clean counter"))
+
+        TimetableContainer.add_widget(TimetableDayTMP)
+
+        self.add_widget(TimetableContainer)
+
         # Create a horizontal layout for the back buttons
         backBtn_layout = BoxLayout(orientation='horizontal', size_hint=(0.2, None), height=30, spacing=10)
         back_btn=Button(text='Back')

@@ -5,4 +5,4 @@ def allocateTasks(users, userTasks, tasks):
     #userTasks = { userTaskRef, userTaskRef }
     #tasks = { taskRef, taskRef }
 
-    tasksToDo = []
+    
